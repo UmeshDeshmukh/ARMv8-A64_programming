@@ -1,0 +1,73 @@
+AARCH64 GAS  Chapter14_1_.s 			page 1
+
+
+ GNU assembler version 2.35.2 (aarch64-linux-gnu)
+	 using BFD version (GNU Binutils for Debian) 2.35.2.
+ options passed	: -g -aghlms=obj/Chapter14_1_.lst -march=armv8-a+simd -I. -I../../Include 
+ input file    	: Chapter14_1_.s
+ output file   	: obj/Chapter14_1_.o
+ target        	: aarch64-unknown-linux-gnu
+ time stamp    	: 2022-07-24T13:29:45.000-0400
+
+AARCH64 GAS  Chapter14_1_.s 			page 2
+
+
+   1              	//void packedAddI16_(Vec128* x,Vec128& a,Vec128& b);
+   2              	.text
+   3              	.global packedAddI16_
+   4              	packedAddI16_:
+   5 0000 2100C03D 	  ldr q1,[x1]
+   6 0004 4200C03D 	  ldr q2,[x2]
+   7 0008 2084624E 	  add v0.8h,v1.8h,v2.8h
+   8 000c 0000803D 	  str q0,[x0]
+   9              	  
+  10 0010 200C624E 	  sqadd v0.8h,v1.8h,v2.8h
+  11 0014 0004803D 	  str q0,[x0,16]
+  12 0018 C0035FD6 	  ret
+  13              	  
+  14              	//void packedSubI16_(Vec128* x,Vec128& a,Vec128& b);
+  15              	.global packedSubI16_
+  16              	packedSubI16_:
+  17 001c 2100C03D 	  ldr q1,[x1]
+  18 0020 4200C03D 	  ldr q2,[x2]
+  19 0024 2084626E 	  sub v0.8h,v1.8h,v2.8h
+  20 0028 0000803D 	  str q0,[x0]
+  21              	  
+  22 002c 202C624E 	  sqsub v0.8h,v1.8h,v2.8h
+  23 0030 0004803D 	  str q0,[x0,16]
+  24 0034 C0035FD6 	  ret
+  25              	  
+  26              	//void packedAddU16_(Vec128* x,Vec128& a,Vec128& b);
+  27              	.global packedAddU16_
+  28              	packedAddU16_:
+  29 0038 2174404C 	  ld1 {v1.8h},[x1]
+  30 003c 4274404C 	  ld1 {v2.8h},[x2]
+  31 0040 2384624E 	  add v3.8h,v1.8h,v2.8h
+  32              	  //st1 {v0.8h},[x0]
+  33              	    
+  34 0044 240C626E 	  uqadd v4.8h,v1.8h,v2.8h
+  35 0048 03A4004C 	  st1 {v3.8h,v4.8h},[x0]
+  36 004c C0035FD6 	  ret  
+  37              	  
+  38              	//void packedSubU16_(Vec128* x,Vec128& a,Vec128& b);
+  39              	.global packedSubU16_
+  40              	packedSubU16_:
+  41 0050 2174404C 	  ld1 {v1.8h},[x1]
+  42 0054 4274404C 	  ld1 {v2.8h},[x2]
+  43 0058 2384626E 	  sub v3.8h,v1.8h,v2.8h
+  44              	  //st1 {v0.8h},[x0]
+  45              	    
+  46 005c 242C626E 	  uqsub v4.8h,v1.8h,v2.8h
+  47 0060 03A4004C 	  st1 {v3.8h,v4.8h},[x0]  
+  48 0064 C0035FD6 	  ret
+AARCH64 GAS  Chapter14_1_.s 			page 3
+
+
+DEFINED SYMBOLS
+      Chapter14_1_.s:4      .text:0000000000000000 packedAddI16_
+      Chapter14_1_.s:5      .text:0000000000000000 $x
+      Chapter14_1_.s:16     .text:000000000000001c packedSubI16_
+      Chapter14_1_.s:28     .text:0000000000000038 packedAddU16_
+      Chapter14_1_.s:40     .text:0000000000000050 packedSubU16_
+
+NO UNDEFINED SYMBOLS

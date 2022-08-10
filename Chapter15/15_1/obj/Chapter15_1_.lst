@@ -1,0 +1,77 @@
+AARCH64 GAS  Chapter15_1_.s 			page 1
+
+
+ GNU assembler version 2.35.2 (aarch64-linux-gnu)
+	 using BFD version (GNU Binutils for Debian) 2.35.2.
+ options passed	: -g -aghlms=obj/Chapter15_1_.lst -march=armv8-a+simd -I. -I../../Include 
+ input file    	: Chapter15_1_.s
+ output file   	: obj/Chapter15_1_.o
+ target        	: aarch64-unknown-linux-gnu
+ time stamp    	: 2022-07-26T16:38:24.000-0400
+
+AARCH64 GAS  Chapter15_1_.s 			page 2
+
+
+   1              	
+   2              	//void packedMathFloat_(Vec128 x[9],const Vec128& a,const Vec128& b);
+   3              	.text
+   4              	.global packedMathFloat_
+   5              	packedMathFloat_:
+   6 0000 2178404C 	  ld1 {v1.4s},[x1]
+   7 0004 4278404C 	  ld1 {v2.4s},[x2]
+   8              	  
+   9 0008 20D4224E 	  fadd   v0.4s,v1.4s,v2.4s 
+  10 000c 00789F4C 	  st1   {v0.4s},[x0],16  
+  11 0010 20D4A24E 	  fsub   v0.4s,v1.4s,v2.4s
+  12 0014 00789F4C 	  st1   {v0.4s},[x0],16
+  13 0018 20DC226E 	  fmul   v0.4s,v1.4s,v2.4s
+  14 001c 00789F4C 	  st1   {v0.4s},[x0],16
+  15 0020 20FC226E 	  fdiv   v0.4s,v1.4s,v2.4s
+  16 0024 00789F4C 	  st1   {v0.4s},[x0],16
+  17 0028 20F8A04E 	  fabs   v0.4s,v1.4s
+  18 002c 00789F4C 	  st1   {v0.4s},[x0],16
+  19 0030 40F8A06E 	  fneg   v0.4s,v2.4s
+  20 0034 00789F4C 	  st1   {v0.4s},[x0],16
+  21 0038 20C4A24E 	  fminnm v0.4s,v1.4s,v2.4s
+  22 003c 00789F4C 	  st1   {v0.4s},[x0],16
+  23 0040 20C4224E 	  fmaxnm v0.4s,v1.4s,v2.4s
+  24 0044 00789F4C 	  st1   {v0.4s},[x0],16
+  25 0048 20F8A16E 	  fsqrt  v0.4s,v1.4s
+  26 004c 00789F4C 	  st1   {v0.4s},[x0],16
+  27 0050 C0035FD6 	  ret
+  28              	  
+  29              	
+  30              	//void packedMathDouble_(Vec128 x[9],const Vec128& a,const Vec128& b);
+  31              	.global packedMathDouble_
+  32              	packedMathDouble_: 
+  33 0054 217C404C 	  ld1 {v1.2d},[x1]
+  34 0058 427C404C 	  ld1 {v2.2d},[x2]
+  35              	  
+  36 005c 20D4624E 	  fadd   v0.2d,v1.2d,v2.2d 
+  37 0060 007C9F4C 	  st1   {v0.2d},[x0],16  
+  38 0064 20D4E24E 	  fsub   v0.2d,v1.2d,v2.2d
+  39 0068 007C9F4C 	  st1   {v0.2d},[x0],16
+  40 006c 20DC626E 	  fmul   v0.2d,v1.2d,v2.2d
+  41 0070 007C9F4C 	  st1   {v0.2d},[x0],16
+  42 0074 20FC626E 	  fdiv   v0.2d,v1.2d,v2.2d
+  43 0078 007C9F4C 	  st1   {v0.2d},[x0],16
+  44 007c 20F8E04E 	  fabs   v0.2d,v1.2d
+  45 0080 007C9F4C 	  st1   {v0.2d},[x0],16
+  46 0084 40F8E06E 	  fneg   v0.2d,v2.2d
+  47 0088 007C9F4C 	  st1   {v0.2d},[x0],16
+  48 008c 20C4E24E 	  fminnm v0.2d,v1.2d,v2.2d
+  49 0090 007C9F4C 	  st1   {v0.2d},[x0],16
+  50 0094 20C4624E 	  fmaxnm v0.2d,v1.2d,v2.2d
+  51 0098 007C9F4C 	  st1   {v0.2d},[x0],16
+  52 009c 20F8E16E 	  fsqrt  v0.2d,v1.2d
+  53 00a0 007C9F4C 	  st1   {v0.2d},[x0],16
+  54 00a4 C0035FD6 	  ret  
+AARCH64 GAS  Chapter15_1_.s 			page 3
+
+
+DEFINED SYMBOLS
+      Chapter15_1_.s:5      .text:0000000000000000 packedMathFloat_
+      Chapter15_1_.s:6      .text:0000000000000000 $x
+      Chapter15_1_.s:32     .text:0000000000000054 packedMathDouble_
+
+NO UNDEFINED SYMBOLS

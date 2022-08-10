@@ -1,0 +1,42 @@
+AARCH64 GAS  extInstr_.s 			page 1
+
+
+ GNU assembler version 2.35.2 (aarch64-linux-gnu)
+	 using BFD version (GNU Binutils for Debian) 2.35.2.
+ options passed	: -g -aghlms=obj/extInstr_.lst -march=armv8-a+simd -I. -I../../Include 
+ input file    	: extInstr_.s
+ output file   	: obj/extInstr_.o
+ target        	: aarch64-unknown-linux-gnu
+ time stamp    	: 2022-07-25T15:15:51.000-0400
+
+AARCH64 GAS  extInstr_.s 			page 2
+
+
+   1              	//void extInstr_(Vec128* x,Vec128& a,Vec128& b);
+   2              	.text
+   3              	.global extInstr_
+   4              	extInstr_:
+   5 0000 2100C03D 	  ldr q1,[x1]
+   6 0004 4200C03D 	  ldr q2,[x2]
+   7 0008 2030026E 	  EXT v0.16b,v1.16b,v2.16b,#6
+   8 000c 0000803D 	  str q0,[x0]
+   9 0010 C0035FD6 	  ret
+  10              	  
+  11              	//tblInstr_(Vec128* x,Vec128& a,Vec128& b,Vec128& indx);  
+  12              	.global tblInstr_
+  13              	tblInstr_:
+  14 0014 6000C03D 	  ldr q0,[x3]  
+  15 0018 2100C03D 	  ldr q1,[x1]
+  16 001c 4200C03D 	  ldr q2,[x2]  
+  17 0020 2320004E 	  tbl v3.16b,{v1.16b,v2.16b},v0.16b
+  18 0024 0300803D 	  str q3,[x0]
+  19 0028 C0035FD6 	  ret
+AARCH64 GAS  extInstr_.s 			page 3
+
+
+DEFINED SYMBOLS
+         extInstr_.s:4      .text:0000000000000000 extInstr_
+         extInstr_.s:5      .text:0000000000000000 $x
+         extInstr_.s:13     .text:0000000000000014 tblInstr_
+
+NO UNDEFINED SYMBOLS

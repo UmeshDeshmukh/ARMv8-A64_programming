@@ -1,0 +1,44 @@
+AARCH64 GAS  Chapter11_1_.s 			page 1
+
+
+ GNU assembler version 2.35.2 (aarch64-linux-gnu)
+	 using BFD version (GNU Binutils for Debian) 2.35.2.
+ options passed	: -g -aghlms=obj/Chapter11_1_.lst -march=armv8-a+simd -I. -I../../Include 
+ input file    	: Chapter11_1_.s
+ output file   	: obj/Chapter11_1_.o
+ target        	: aarch64-unknown-linux-gnu
+ time stamp    	: 2022-07-20T00:07:27.000-0400
+
+AARCH64 GAS  Chapter11_1_.s 			page 2
+
+
+   1              	//extern "C" int IntAddSubScalar_(int a,int b,int c,int d);
+   2              	//                                  x0    x1    x2    x3
+   3              	
+   4              	.text
+   5              	.global IntAddSubScalar_
+   6              	
+   7              	IntAddSubScalar_:
+   8 0000 000001CB 	 sub x0,x0,x1       //r0 = a-b
+   9 0004 0000028B 	 add x0,x0,x2       //r0 = a-b+c
+  10 0008 000003CB 	 sub x0,x0,x3       //r0 = a-b+c-d
+  11              	 
+  12 000c C0035FD6 	 ret                //return 
+  13              	
+  14              	//extern "C" long IntAddSubScalar2_(long a,long b,long c,long d)
+  15              	
+  16              	
+  17              	
+  18              	
+  19              	
+  20              	
+  21              	
+  22              	
+AARCH64 GAS  Chapter11_1_.s 			page 3
+
+
+DEFINED SYMBOLS
+      Chapter11_1_.s:7      .text:0000000000000000 IntAddSubScalar_
+      Chapter11_1_.s:8      .text:0000000000000000 $x
+
+NO UNDEFINED SYMBOLS

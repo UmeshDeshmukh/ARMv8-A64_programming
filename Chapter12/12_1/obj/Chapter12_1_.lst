@@ -1,0 +1,82 @@
+AARCH64 GAS  Chapter12_1_.s 			page 1
+
+
+ GNU assembler version 2.35.2 (aarch64-linux-gnu)
+	 using BFD version (GNU Binutils for Debian) 2.35.2.
+ options passed	: -g -aghlms=obj/Chapter12_1_.lst -march=armv8-a+simd -I. -I../../Include 
+ input file    	: Chapter12_1_.s
+ output file   	: obj/Chapter12_1_.o
+ target        	: aarch64-unknown-linux-gnu
+ time stamp    	: 2022-07-21T18:41:35.000-0400
+
+AARCH64 GAS  Chapter12_1_.s 			page 2
+
+
+   1              	//extern "C" int64_t sumOfCubes_( 
+   2              	//                               uint64_t a, 0
+   3              	//                               uint32_t b, 1
+   4              	//                               uint8 _t c, 2
+   5              	//                               uint16_t d, 3
+   6              	//                                int16_t e, 4
+   7              	//                                int8 _t f, 5
+   8              	//                                int32_t g, 6
+   9              	//                                int64_t h, 7
+  10              	//                                int32_t i, 8
+  11              	//                               uint32_t j);9
+  12              	
+  13              	.text
+  14              	.global sumOfCubes_
+  15              	sumOfCubes_: 
+  16              	   	 //a*a*a
+  17 0000 0A7C009B 	   	 mul x10,x0,x0   //a*a
+  18 0004 4A7D009B 	   	 mul x10,x10,x0  //a*a*a 
+  19              	
+  20 0008 E103012A 	   	 uxtw x1,w1
+  21 000c 2B7C019B 	   	 mul x11,x1,x1
+  22 0010 6A29019B 	   	 madd x10,x11,x1,x10	
+  23              		
+  24 0014 421C0053 		uxtb x2,w2
+  25 0018 4B7C029B 		mul x11,x2,x2
+  26 001c 6A29029B 		madd x10,x11,x2,x10
+  27              		
+  28 0020 633C0053 		uxth x3,w3
+  29 0024 6B7C039B 		mul x11,x3,x3
+  30 0028 6A29039B 		madd x10,x11,x3,x10
+  31              		
+  32 002c 843C4093 	        sxth x4,w4 //sign extend 
+  33 0030 8B7C049B 		mul x11,x4,x4
+  34 0034 6A29049B 		madd x10,x11,x4,x10
+  35              		
+  36 0038 A51C4093 		sxtb x5,w5            
+  37 003c AB7C059B 		mul x11,x5,x5
+  38 0040 6A29059B 		madd x10,x11,x5,x10
+  39              		
+  40 0044 C67C4093 		sxtw x6,w6
+  41 0048 CB7C069B 		mul x11,x6,x6
+  42 004c 6A29069B 		madd x10,x11,x6,x10
+  43              		
+  44 0050 EB7C079B 		mul x11,x7,x7
+  45 0054 6A29079B 		madd x10,x11,x7,x10
+  46              		
+  47 0058 E80380B9 		ldrsw x8,[SP,0]
+  48 005c E90740F9 		ldr x9,[SP,8]
+  49              		
+  50 0060 087D4093 		sxtw x8,w8
+  51 0064 0B7D089B 		mul x11,x8,x8
+  52 0068 6A29089B 		madd x10,x11,x8,x10
+  53              		
+  54 006c E903092A 		uxtw x9,w9
+  55 0070 2B7D099B 		mul x11,x9,x9
+  56 0074 6029099B 		madd x0,x11,x9,x10
+  57 0078 C0035FD6 		ret
+AARCH64 GAS  Chapter12_1_.s 			page 3
+
+
+AARCH64 GAS  Chapter12_1_.s 			page 4
+
+
+DEFINED SYMBOLS
+      Chapter12_1_.s:15     .text:0000000000000000 sumOfCubes_
+      Chapter12_1_.s:17     .text:0000000000000000 $x
+
+NO UNDEFINED SYMBOLS

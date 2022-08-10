@@ -1,0 +1,91 @@
+AARCH64 GAS  Ch11_04_.s 			page 1
+
+
+ GNU assembler version 2.35.2 (aarch64-linux-gnu)
+	 using BFD version (GNU Binutils for Debian) 2.35.2.
+ options passed	: -g -aghlms=obj/Ch11_04_.lst -march=armv8-a+simd -I. -I../../Include 
+ input file    	: Ch11_04_.s
+ output file   	: obj/Ch11_04_.o
+ target        	: aarch64-unknown-linux-gnu
+ time stamp    	: 2022-07-19T23:57:50.000-0400
+
+AARCH64 GAS  Ch11_04_.s 			page 2
+
+
+   1              	//-------------------------------------------------
+   2              	//               Ch11_04_.s
+   3              	//-------------------------------------------------
+   4              	
+   5              	// Test arrays
+   6              	            .data
+   7 0000 01000000 	A1:         .word 1, 2, 3, 4, 5, 6, 7, 8
+   7      02000000 
+   7      03000000 
+   7      04000000 
+   7      05000000 
+   8 0020 0A000000 	A2:         .quad 10, -20, 30, -40, 50, -60, 70, -80
+   8      00000000 
+   8      ECFFFFFF 
+   8      FFFFFFFF 
+   8      1E000000 
+   9              	
+  10              	            .text
+  11 0000 6400C800 	A3:         .short 100, 200, -300, 400, 500, -600, 700, 800
+  11      D4FE9001 
+  11      F401A8FD 
+  11      BC022003 
+  12              	
+  13              	// extern "C" int TestLDR1_(unsigned int i, unsigned long j);
+  14              	
+  15              	            .global TestLDR1_
+  16 0010 02020058 	TestLDR1_:  ldr x2,=A1                              // x2 = ptr to A1
+  17              	
+  18 0014 435860B8 	            ldr w3,[x2,w0,uxtw 2]                   // w3 = A1[i]
+  19 0018 447861B8 	            ldr w4,[x2,x1,lsl 2]                    // w4 = A1[j]
+  20              	
+  21 001c 6000040B 	            add w0,w3,w4                            // w0 = A1[i] + A1[j]
+  22 0020 C0035FD6 	            ret
+  23              	
+  24              	// extern "C" long TestLDR2_(unsigned int i, unsigned long j);
+  25              	
+  26              	            .global TestLDR2_
+  27 0024 A2010058 	TestLDR2_:  ldr x2,=A2                              // x2 = ptr to A2
+  28              	
+  29 0028 435860F8 	            ldr x3,[x2,w0,uxtw 3]                   // x3 = A2[i]
+  30 002c 447861F8 	            ldr x4,[x2,x1,lsl 3]                    // x4 = A2[j]
+  31              	
+  32 0030 6000048B 	            add x0,x3,x4                            // w0 = A2[i] + A2[j]
+  33 0034 C0035FD6 	            ret
+  34              	
+  35              	// extern "C" short TestLDR3_(unsigned int i, unsigned long j);
+  36              	
+  37              	            .global TestLDR3_
+  38 0038 42FEFF10 	TestLDR3_:  adr x2,A3                               // x2 = ptr to A3
+  39              	
+  40 003c 4358E078 	            ldrsh w3,[x2,w0,uxtw 1]                 // w3 = A3[i]
+  41 0040 4478E178 	            ldrsh w4,[x2,x1,lsl 1]                  // w4 = A3[j]
+  42              	
+  43 0044 6000040B 	            add w0,w3,w4                            // w0 = A3[i] + A3[j]
+  44 0048 C0035FD6 	            ret
+  44      00000000 
+  44      00000000 
+AARCH64 GAS  Ch11_04_.s 			page 3
+
+
+  44      00000000 
+  44      00000000 
+AARCH64 GAS  Ch11_04_.s 			page 4
+
+
+DEFINED SYMBOLS
+          Ch11_04_.s:7      .data:0000000000000000 A1
+          Ch11_04_.s:8      .data:0000000000000020 A2
+          Ch11_04_.s:11     .text:0000000000000000 A3
+          Ch11_04_.s:11     .text:0000000000000000 $d
+          Ch11_04_.s:16     .text:0000000000000010 TestLDR1_
+          Ch11_04_.s:16     .text:0000000000000010 $x
+          Ch11_04_.s:27     .text:0000000000000024 TestLDR2_
+          Ch11_04_.s:38     .text:0000000000000038 TestLDR3_
+          Ch11_04_.s:44     .text:0000000000000050 $d
+
+NO UNDEFINED SYMBOLS

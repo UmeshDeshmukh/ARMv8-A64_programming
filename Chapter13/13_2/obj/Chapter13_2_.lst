@@ -1,0 +1,47 @@
+AARCH64 GAS  Chapter13_2_.s 			page 1
+
+
+ GNU assembler version 2.35.2 (aarch64-linux-gnu)
+	 using BFD version (GNU Binutils for Debian) 2.35.2.
+ options passed	: -g -aghlms=obj/Chapter13_2_.lst -march=armv8-a+simd -I. -I../../Include 
+ input file    	: Chapter13_2_.s
+ output file   	: obj/Chapter13_2_.o
+ target        	: aarch64-unknown-linux-gnu
+ time stamp    	: 2022-07-22T19:59:21.000-0400
+
+AARCH64 GAS  Chapter13_2_.s 			page 2
+
+
+   1              	.text
+   2 0000 182D4454 	pi:     .double 3.141592653589793
+   2      FB210940 
+   3 0008 00000000 	const4: .double 4.0
+   3      00001040 
+   4 0010 00000000 	const3: .double 3.0
+   4      00000840 
+   5              	
+   6              	.global sphereAreaVol_
+   7              	sphereAreaVol_:
+   8 0018 82FFFF5C 	  ldr d2,const4
+   9 001c 23FFFF5C 	  ldr d3,pi
+  10 0020 0108601E 	  fmul d1,d0,d0
+  11 0024 2108631E 	  fmul d1,d1,d3
+  12 0028 2108621E 	  fmul d1,d1,d2
+  13 002c 010000FD 	  str  d1,[x0]
+  14              	  
+  15 0030 04FFFF5C 	  ldr d4,const3
+  16 0034 2108601E 	  fmul d1,d1,d0
+  17 0038 2118641E 	  fdiv d1,d1,d4
+  18 003c 210000FD 	  str  d1,[x1]
+AARCH64 GAS  Chapter13_2_.s 			page 3
+
+
+DEFINED SYMBOLS
+      Chapter13_2_.s:2      .text:0000000000000000 pi
+      Chapter13_2_.s:2      .text:0000000000000000 $d
+      Chapter13_2_.s:3      .text:0000000000000008 const4
+      Chapter13_2_.s:4      .text:0000000000000010 const3
+      Chapter13_2_.s:7      .text:0000000000000018 sphereAreaVol_
+      Chapter13_2_.s:8      .text:0000000000000018 $x
+
+NO UNDEFINED SYMBOLS

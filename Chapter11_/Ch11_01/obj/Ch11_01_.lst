@@ -1,0 +1,48 @@
+AARCH64 GAS  Ch11_01_.s 			page 1
+
+
+ GNU assembler version 2.35.2 (aarch64-linux-gnu)
+	 using BFD version (GNU Binutils for Debian) 2.35.2.
+ options passed	: -g -aghlms=obj/Ch11_01_.lst -march=armv8-a+simd -I. -I../../Include 
+ input file    	: Ch11_01_.s
+ output file   	: obj/Ch11_01_.o
+ target        	: aarch64-unknown-linux-gnu
+ time stamp    	: 2022-07-19T02:08:41.000-0400
+
+AARCH64 GAS  Ch11_01_.s 			page 2
+
+
+   1              	//-------------------------------------------------
+   2              	//               Ch11_01_.s
+   3              	//-------------------------------------------------
+   4              	
+   5              	// extern "C" int IntegerAddSubA_(int a, int b int c);
+   6              	
+   7              	            .text
+   8              	            .global IntegerAddSubA_
+   9              	IntegerAddSubA_:
+  10              	
+  11              	// Calculate a + b - c
+  12 0000 0300010B 	            add w3,w0,w1                            // w3 = a + b
+  13 0004 6000024B 	            sub w0,w3,w2                            // w0 = a + b - c
+  14 0008 C0035FD6 	            ret                                     // return to caller
+  15              	
+  16              	// extern "C" long IntegerAddSubB_(long a, long b long c);
+  17              	
+  18              	            .global IntegerAddSubB_
+  19              	IntegerAddSubB_:
+  20              	
+  21              	// Calculate a + b - c
+  22 000c 0300018B 	            add x3,x0,x1                            // x3 = a + b
+  23 0010 600002CB 	            sub x0,x3,x2                            // x0 = a + b - c
+  24 0014 C0035FD6 	            ret                                     // return to caller
+  25              	
+AARCH64 GAS  Ch11_01_.s 			page 3
+
+
+DEFINED SYMBOLS
+          Ch11_01_.s:9      .text:0000000000000000 IntegerAddSubA_
+          Ch11_01_.s:12     .text:0000000000000000 $x
+          Ch11_01_.s:19     .text:000000000000000c IntegerAddSubB_
+
+NO UNDEFINED SYMBOLS

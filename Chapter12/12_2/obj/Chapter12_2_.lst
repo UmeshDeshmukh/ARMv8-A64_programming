@@ -1,0 +1,105 @@
+AARCH64 GAS  Chapter12_2_.s 			page 1
+
+
+ GNU assembler version 2.35.2 (aarch64-linux-gnu)
+	 using BFD version (GNU Binutils for Debian) 2.35.2.
+ options passed	: -g -aghlms=obj/Chapter12_2_.lst -march=armv8-a+simd -I. -I../../Include 
+ input file    	: Chapter12_2_.s
+ output file   	: obj/Chapter12_2_.o
+ target        	: aarch64-unknown-linux-gnu
+ time stamp    	: 2022-07-22T14:45:49.000-0400
+
+AARCH64 GAS  Chapter12_2_.s 			page 2
+
+
+   1              	//extern "C" void local_Var_(int32_t a,
+   2              	//                           int32_t b,
+   3              	//                           int32_t c,
+   4              	//						     int32_t d,
+   5              	//						     int64_t e,
+   6              	//                           int64_t f,
+   7              	//                           int64_t g,
+   8              	//                           int64_t h,
+   9              	//                           int32_t*x, 
+  10              	//                           int64_t*y );
+  11              	
+  12              	//offsets for local variables
+  13              	.equ t0,0 
+  14              	.equ t1,4
+  15              	.equ t2,8
+  16              	.equ t3,16
+  17              	.equ locVarSize,32
+  18              	.equ argX,48
+  19              	.equ argY,56
+  20              	.text
+  21              	.global local_Var_
+  22              	local_Var_:
+  23              	// 	int32_t t0 = a+b-c;
+  24              	//	int32_t t1 = d+global_var2;
+  25              	//  int64_t t2 = e-f+g;
+  26              	//  int64_t t3 = h-global_var1;
+  27              	//  *x = t0*t1;
+  28              	//  *y = t2*t3;	
+  29              		
+  30              	    //prologue	
+  31 0000 F353BFA9 		stp x19,x20,[SP,-16]!
+  32 0004 FF8300D1 		sub SP,SP,locVarSize
+  33              		
+  34 0008 0000010B 		add w0,w0,w1
+  35 000c 0000024B 		sub w0,w0,w2
+  36 0010 E00300B9 		str w0,[SP,t0]
+  37              			
+  38 0014 33030058 		ldr x19,=global_var2
+  39 0018 730240B9 		ldr w19,[x19]
+  40 001c 7300130B 		add w19,w3,w19
+  41 0020 F30700B9 		str w19,[SP,t1]
+  42              					
+  43 0024 840005CB 		sub x4,x4,x5
+  44 0028 8400068B 		add x4,x4,x6
+  45 002c E40700F9 		str x4,[SP,t2]
+  46              		
+  47 0030 94020058 		ldr x20,=global_var1
+  48 0034 940240F9 		ldr x20,[x20]
+  49 0038 E70014CB 		sub x7,x7,x20
+  50 003c E70B00F9 		str x7,[SP,t3]
+  51              		
+  52 0040 E00340B9 	    ldr w0,[SP,t0]
+  53 0044 E10740B9 	    ldr w1,[SP,t1]
+  54 0048 007C011B 		mul w0,w0,w1
+  55 004c E31B40F9 		ldr x3,[SP,argX]
+  56 0050 600000B9 		str w0,[x3]
+  57              		
+AARCH64 GAS  Chapter12_2_.s 			page 3
+
+
+  58 0054 E00740F9 		ldr x0,[SP,t2]
+  59 0058 E10B40F9 	    ldr x1,[SP,t3]
+  60 005c 007C019B 		mul x0,x0,x1
+  61 0060 E31F40F9 		ldr x3,[SP,argY]
+  62 0064 600000F9 		str x0,[x3]
+  63              		
+  64 0068 FF830091 		add SP,SP,locVarSize
+  65 006c F353C1A8 		ldp x19,x20,[SP],16
+  66 0070 C0035FD6 		ret
+  66      00000000 
+  66      00000000 
+  66      00000000 
+  66      00000000 
+AARCH64 GAS  Chapter12_2_.s 			page 4
+
+
+DEFINED SYMBOLS
+      Chapter12_2_.s:13     *ABS*:0000000000000000 t0
+      Chapter12_2_.s:14     *ABS*:0000000000000004 t1
+      Chapter12_2_.s:15     *ABS*:0000000000000008 t2
+      Chapter12_2_.s:16     *ABS*:0000000000000010 t3
+      Chapter12_2_.s:17     *ABS*:0000000000000020 locVarSize
+      Chapter12_2_.s:18     *ABS*:0000000000000030 argX
+      Chapter12_2_.s:19     *ABS*:0000000000000038 argY
+      Chapter12_2_.s:22     .text:0000000000000000 local_Var_
+      Chapter12_2_.s:31     .text:0000000000000000 $x
+      Chapter12_2_.s:66     .text:0000000000000078 $d
+
+UNDEFINED SYMBOLS
+global_var2
+global_var1

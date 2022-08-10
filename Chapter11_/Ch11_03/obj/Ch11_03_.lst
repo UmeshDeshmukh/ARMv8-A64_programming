@@ -1,0 +1,56 @@
+AARCH64 GAS  Ch11_03_.s 			page 1
+
+
+ GNU assembler version 2.35.2 (aarch64-linux-gnu)
+	 using BFD version (GNU Binutils for Debian) 2.35.2.
+ options passed	: -g -aghlms=obj/Ch11_03_.lst -march=armv8-a+simd -I. -I../../Include 
+ input file    	: Ch11_03_.s
+ output file   	: obj/Ch11_03_.o
+ target        	: aarch64-unknown-linux-gnu
+ time stamp    	: 2022-07-19T23:16:51.000-0400
+
+AARCH64 GAS  Ch11_03_.s 			page 2
+
+
+   1              	//-------------------------------------------------
+   2              	//               Ch11_03_.s
+   3              	//-------------------------------------------------
+   4              	
+   5              	// extern "C" void CalcQuoRemA_(int a, int b, int* quo, int* rem);
+   6              	
+   7              	            .text
+   8              	            .global CalcQuoRemA_
+   9              	CalcQuoRemA_:
+  10              	
+  11              	// Calculate quotient and remainder
+  12 0000 040CC11A 	            sdiv w4,w0,w1                           // a / b
+  13 0004 440000B9 	            str w4,[x2]                             // save quotient
+  14              	
+  15 0008 857C011B 	            mul w5,w4,w1                            // quotient * b
+  16 000c 0600054B 	            sub w6,w0,w5                            // a - quotient * b
+  17 0010 660000B9 	            str w6,[x3]                             // save remainder
+  18 0014 C0035FD6 	            ret                                     // return to caller
+  19              	
+  20              	// extern "C" void CalcQuoRemB_(long a, long b, long* quo, long* rem);
+  21              	
+  22              	            .global CalcQuoRemB_
+  23              	CalcQuoRemB_:
+  24              	
+  25              	// Calculate quotient and remainder
+  26 0018 040CC19A 	            sdiv x4,x0,x1                           // a / b
+  27 001c 440000F9 	            str x4,[x2]                             // save quotient
+  28              	
+  29 0020 857C019B 	            mul x5,x4,x1                            // quotient * b
+  30 0024 060005CB 	            sub x6,x0,x5                            // a - quotient * b
+  31 0028 660000F9 	            str x6,[x3]                             // save remainder
+  32 002c C0035FD6 	            ret                                     // return to caller
+  33              	
+AARCH64 GAS  Ch11_03_.s 			page 3
+
+
+DEFINED SYMBOLS
+          Ch11_03_.s:9      .text:0000000000000000 CalcQuoRemA_
+          Ch11_03_.s:12     .text:0000000000000000 $x
+          Ch11_03_.s:23     .text:0000000000000018 CalcQuoRemB_
+
+NO UNDEFINED SYMBOLS

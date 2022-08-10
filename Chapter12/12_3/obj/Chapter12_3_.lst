@@ -1,0 +1,67 @@
+AARCH64 GAS  Chapter12_3_.s 			page 1
+
+
+ GNU assembler version 2.35.2 (aarch64-linux-gnu)
+	 using BFD version (GNU Binutils for Debian) 2.35.2.
+ options passed	: -g -aghlms=obj/Chapter12_3_.lst -march=armv8-a+simd -I. -I../../Include 
+ input file    	: Chapter12_3_.s
+ output file   	: obj/Chapter12_3_.o
+ target        	: aarch64-unknown-linux-gnu
+ time stamp    	: 2022-07-22T16:56:18.000-0400
+
+AARCH64 GAS  Chapter12_3_.s 			page 2
+
+
+   1              	//extern "C" bool compareA_(int32_t a,int32_t b,int32_t c,int32_t* sum);
+   2              	.text
+   3              	.global compareA_
+   4              	compareA_:
+   5 0000 0000010B 		add w0,w0,w1	
+   6 0004 0000020B 	    add w0,w0,w2
+   7 0008 600000B9 		str w0,[x3]
+   8              		
+   9 000c 1F900171 		cmp w0,100
+  10 0010 6A000054 	    b.ge GrTEq
+  11 0014 00008052 	    mov w0,#0	
+  12 0018 C0035FD6 		ret
+  13              	GrTEq:	
+  14 001c 20008052 		mov w0,#1
+  15 0020 C0035FD6 		ret
+  16              	
+  17              	//extern "C" bool compareC_(int32_t a,int32_t b,int32_t c,int32_t* sum);
+  18              	
+  19              	.global compareC_
+  20              	compareC_:
+  21 0024 0000012B 	    adds w0,w0,w1
+  22 0028 E4779F1A 		cset w4,vs
+  23 002c 0000022B 		adds w0,w0,w2
+  24 0030 E5779F1A 		cset w5,vs
+  25 0034 600000B9 		str w0,[x3]
+  26 0038 8000052A 		orr w0,w4,w5
+  27 003c C0035FD6 		ret
+  28              	
+  29              	//extern "C" bool compareB_(int64_t a,int64_t b,int64_t c,int64_t* sum);
+  30              	
+  31              	.global compareB_
+  32              	compareB_:
+  33 0040 000001AB 	    adds x0,x0,x1
+  34 0044 000002AB 		adds x0,x0,x2
+  35 0048 600000F9 		str x0,[x3]
+  36 004c 6C000054 		b.gt gtZ
+  37 0050 00008052 		mov w0,#0
+  38 0054 C0035FD6 		ret
+  39              	gtZ:
+  40 0058 20008052 	    mov w0,#1	
+  41 005c C0035FD6 		ret
+AARCH64 GAS  Chapter12_3_.s 			page 3
+
+
+DEFINED SYMBOLS
+      Chapter12_3_.s:4      .text:0000000000000000 compareA_
+      Chapter12_3_.s:5      .text:0000000000000000 $x
+      Chapter12_3_.s:13     .text:000000000000001c GrTEq
+      Chapter12_3_.s:20     .text:0000000000000024 compareC_
+      Chapter12_3_.s:32     .text:0000000000000040 compareB_
+      Chapter12_3_.s:39     .text:0000000000000058 gtZ
+
+NO UNDEFINED SYMBOLS

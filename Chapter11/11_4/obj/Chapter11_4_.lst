@@ -1,0 +1,83 @@
+AARCH64 GAS  Chapter11_4_.s 			page 1
+
+
+ GNU assembler version 2.35.2 (aarch64-linux-gnu)
+	 using BFD version (GNU Binutils for Debian) 2.35.2.
+ options passed	: -g -aghlms=obj/Chapter11_4_.lst -march=armv8-a+simd -g -I. -I../../Include 
+ input file    	: Chapter11_4_.s
+ output file   	: obj/Chapter11_4_.o
+ target        	: aarch64-unknown-linux-gnu
+ time stamp    	: 2022-07-20T19:56:37.000-0400
+
+AARCH64 GAS  Chapter11_4_.s 			page 2
+
+
+   1              	.data
+   2 0000 02000000 	A1: .word 2,3,5,9,2,4,22,69,0,1
+   2      03000000 
+   2      05000000 
+   2      09000000 
+   2      02000000 
+   3 0028 37000000 	A2: .quad 55,36,-89,-23,11,90
+   3      00000000 
+   3      24000000 
+   3      00000000 
+   3      A7FFFFFF 
+   4              	
+   5              	.text
+   6 0000 9CFFC800 	A3: .short -100,200,702,800,999,786,365,666
+   6      BE022003 
+   6      E7031203 
+   6      6D019A02 
+   7              	
+   8              	//int ldrInstrTest1_(unsigned int i,unsigned long j);
+   9              	//w                            w0              x1 
+  10              	.global ldrInstrTest1_ 
+  11              	ldrInstrTest1_:          
+  12 0010 02020058 	  ldr x2,=A1           //A1 array of word(32 bit) size elements
+  13 0014 435860B8 	  ldr w3,[x2,w0,uxtw 2]
+  14 0018 447861B8 	  ldr w4,[x2,x1,lsl 2] 
+  15 001c 6000040B 	  add w0,w3,w4  
+  16 0020 C0035FD6 	  ret
+  17              	  
+  18              	  
+  19              	//long ldrInstrTest2_(unsigned int i,unsigned long j);
+  20              	//x                            w0              x1     
+  21              	.global ldrInstrTest2_ 
+  22              	ldrInstrTest2_:
+  23 0024 A2010058 	  ldr x2,=A2           //A2 array of quad(64 bit) size elements
+  24 0028 435860F8 	  ldr x3,[x2,w0,uxtw 3]
+  25 002c 447861F8 	  ldr x4,[x2,x1,lsl 3]
+  26 0030 6000048B 	  add x0,x3,x4
+  27 0034 C0035FD6 	  ret
+  28              	
+  29              	
+  30              	//short ldrINstrTest3_(unsigned int i,unsigned long j);
+  31              	//w                            w0              x1
+  32              	
+  33              	.global ldrInstrTest3_ 
+  34              	ldrInstrTest3_:
+  35 0038 42FEFF10 	  adr x2,A3           //A3 array of short(16 bit) size elements
+  36 003c 4358E078 	  ldrsh w3,[x2,w0,uxtw 1]
+  37 0040 4478E178 	  ldrsh w4,[x2,x1,lsl 1]
+  38 0044 6000040B 	  add w0,w3,w4
+  39 0048 C0035FD6 	  ret
+  39      00000000 
+  39      00000000 
+  39      00000000 
+  39      00000000 
+AARCH64 GAS  Chapter11_4_.s 			page 3
+
+
+DEFINED SYMBOLS
+      Chapter11_4_.s:2      .data:0000000000000000 A1
+      Chapter11_4_.s:3      .data:0000000000000028 A2
+      Chapter11_4_.s:6      .text:0000000000000000 A3
+      Chapter11_4_.s:6      .text:0000000000000000 $d
+      Chapter11_4_.s:11     .text:0000000000000010 ldrInstrTest1_
+      Chapter11_4_.s:12     .text:0000000000000010 $x
+      Chapter11_4_.s:22     .text:0000000000000024 ldrInstrTest2_
+      Chapter11_4_.s:34     .text:0000000000000038 ldrInstrTest3_
+      Chapter11_4_.s:39     .text:0000000000000050 $d
+
+NO UNDEFINED SYMBOLS

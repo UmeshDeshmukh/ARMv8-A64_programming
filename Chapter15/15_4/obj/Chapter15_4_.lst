@@ -1,0 +1,147 @@
+AARCH64 GAS  Chapter15_4_.s 			page 1
+
+
+ GNU assembler version 2.35.2 (aarch64-linux-gnu)
+	 using BFD version (GNU Binutils for Debian) 2.35.2.
+ options passed	: -g -aghlms=obj/Chapter15_4_.lst -march=armv8-a+simd -I. -I../../Include 
+ input file    	: Chapter15_4_.s
+ output file   	: obj/Chapter15_4_.o
+ target        	: aarch64-unknown-linux-gnu
+ time stamp    	: 2022-07-27T16:25:58.000-0400
+
+AARCH64 GAS  Chapter15_4_.s 			page 2
+
+
+   1              	//bool corrCoeff_(float* rho,    x0
+   2              	                //float sum[5],  x1 
+   3              	                //const float*x, x2
+   4              	                //const float*y, x3
+   5              	                //size_t n,      x4
+   6              	                //float eps);    s0
+   7              	.text
+   8              	
+   9              	.macro updateSum REG1,REG2
+  10              	    fadd v16.4s,v16.4s,\REG1\().4s     //sum(x) 
+  11              	    fadd v17.4s,v17.4s,\REG2\().4s     //sum(y)
+  12              		fmla v18.4s,\REG1\().4s,\REG1\().4s//sum(x*x)
+  13              		fmla v19.4s,\REG2\().4s,\REG2\().4s//sum(y*y)
+  14              		fmla v20.4s,\REG1\().4s,\REG2\().4s//sum(x*y)
+  15              		.endm
+  16              		
+  17              	.macro redToScalar REG
+  18              	    faddp \REG\().4s,\REG\().4s,\REG\().4s //pairwise across lanes 4->2
+  19              		faddp \REG\().4s,\REG\().4s,\REG\().4s //2->1 (scalar value result lower 32 bit)
+  20              	    .endm	
+  21              		
+  22              	.global corrCoeff_
+  23              	corrCoeff_:
+  24 0000 101E306E 	    eor v16.16b,v16.16b,v16.16b    
+  25 0004 311E316E 	    eor v17.16b,v17.16b,v17.16b
+  26 0008 521E326E 	    eor v18.16b,v18.16b,v18.16b
+  27 000c 731E336E 	    eor v19.16b,v19.16b,v19.16b
+  28 0010 941E346E 		eor v20.16b,v20.16b,v20.16b
+  29              	
+  30 0014 4028DF4C 	L1:	ld1 {v0.4s,v1.4s,v2.4s,v3.4s},[x2],64//x	
+  31 0018 6428DF4C 		ld1 {v4.4s,v5.4s,v6.4s,v7.4s},[x3],64//y
+  32              		
+  33              		updateSum v0,v4 
+  33 001c 10D6204E 	>  fadd v16.4s,v16.4s,v0.4s
+  33 0020 31D6244E 	>  fadd v17.4s,v17.4s,v4.4s
+  33 0024 12CC204E 	>  fmla v18.4s,v0.4s,v0.4s
+  33 0028 93CC244E 	>  fmla v19.4s,v4.4s,v4.4s
+  33 002c 14CC244E 	>  fmla v20.4s,v0.4s,v4.4s
+  34              		updateSum v1,v5
+  34 0030 10D6214E 	>  fadd v16.4s,v16.4s,v1.4s
+  34 0034 31D6254E 	>  fadd v17.4s,v17.4s,v5.4s
+  34 0038 32CC214E 	>  fmla v18.4s,v1.4s,v1.4s
+  34 003c B3CC254E 	>  fmla v19.4s,v5.4s,v5.4s
+  34 0040 34CC254E 	>  fmla v20.4s,v1.4s,v5.4s
+  35              		updateSum v2,v6
+  35 0044 10D6224E 	>  fadd v16.4s,v16.4s,v2.4s
+  35 0048 31D6264E 	>  fadd v17.4s,v17.4s,v6.4s
+  35 004c 52CC224E 	>  fmla v18.4s,v2.4s,v2.4s
+  35 0050 D3CC264E 	>  fmla v19.4s,v6.4s,v6.4s
+  35 0054 54CC264E 	>  fmla v20.4s,v2.4s,v6.4s
+  36              		updateSum v3,v7
+  36 0058 10D6234E 	>  fadd v16.4s,v16.4s,v3.4s
+  36 005c 31D6274E 	>  fadd v17.4s,v17.4s,v7.4s
+  36 0060 72CC234E 	>  fmla v18.4s,v3.4s,v3.4s
+  36 0064 F3CC274E 	>  fmla v19.4s,v7.4s,v7.4s
+  36 0068 74CC274E 	>  fmla v20.4s,v3.4s,v7.4s
+  37              		
+AARCH64 GAS  Chapter15_4_.s 			page 3
+
+
+  38 006c 844000D1 		sub x4,x4,16
+  39 0070 9F4000F1 		cmp x4,16
+  40 0074 02FDFF54 		b.hs L1
+  41              		
+  42              	sL:	redToScalar v16  //vector-->scalar 
+  42 0078 10D6306E 	>  faddp v16.4s,v16.4s,v16.4s
+  42 007c 10D6306E 	>  faddp v16.4s,v16.4s,v16.4s
+  43              		redToScalar v17  //(sum of elements across lanes)
+  43 0080 31D6316E 	>  faddp v17.4s,v17.4s,v17.4s
+  43 0084 31D6316E 	>  faddp v17.4s,v17.4s,v17.4s
+  44              		redToScalar v18
+  44 0088 52D6326E 	>  faddp v18.4s,v18.4s,v18.4s
+  44 008c 52D6326E 	>  faddp v18.4s,v18.4s,v18.4s
+  45              		redToScalar v19
+  45 0090 73D6336E 	>  faddp v19.4s,v19.4s,v19.4s
+  45 0094 73D6336E 	>  faddp v19.4s,v19.4s,v19.4s
+  46              		redToScalar v20
+  46 0098 94D6346E 	>  faddp v20.4s,v20.4s,v20.4s
+  46 009c 94D6346E 	>  faddp v20.4s,v20.4s,v20.4s
+  47              		
+  48 00a0 440100B4 		cbz x4,sL2
+  49              		
+  50 00a4 410441BC 	L2: ldr s1,[x2],16       //load x
+  51 00a8 620441BC 	    ldr s2,[x3],16       //load y
+  52 00ac 6328211E 		fadd s3,s3,s1        //sum(x) 
+  53 00b0 8428221E 	    fadd s4,s4,s2	     //sum(y)
+  54 00b4 2510905F 		fmla s5,s1,v16.4s[0] //sum(x*x)
+  55 00b8 4610915F 		fmla s6,s2,v17.4s[0] //sum(y*y)
+  56 00bc 2710915F 		fmla s7,s1,v17.4s[0] //sum(x*y)
+  57 00c0 840400F1 		subs x4,x4,1
+  58 00c4 01FFFF54 		b.ne L2
+  59              		
+  60 00c8 2310812C 	sL2:stp s3,s4,[x1],8
+  61 00cc 2518812C 	    stp s5,s6,[x1],8
+  62 00d0 270000BD 	    str s7,[x1]	
+  63              		
+  64 00d4 8800229E 		scvtf s8,x4
+  65 00d8 E708281E 		fmul  s7,s7,s8 //sum(x*y)*n
+  66 00dc 6908241E 		fmul  s9,s3,s4 //sum(x)*sum(y)
+  67 00e0 E738291E 		fsub  s7,s7,s9 //sum(x*y)*n - sum(x)*sum(y)
+  68              		
+  69 00e4 A508281E 		fmul  s5,s5,s8 //sum(x*x)*n
+  70 00e8 6308231E 		fmul  s3,s3,s3 //sum(x)*sum(x)
+  71 00ec A538231E 		fsub  s5,s5,s3
+  72 00f0 A5C0211E 		fsqrt s5,s5
+  73              		
+  74 00f4 C608281E 		fmul  s6,s6,s8 //sum(y*y)*n
+  75 00f8 8408241E 		fmul  s4,s4,s4 //sum(y)*sum(y)
+  76 00fc C638231E 		fsub  s6,s6,s3
+  77 0100 C6C0211E 		fsqrt s6,s6
+  78              		
+  79 0104 A508261E 		fmul  s5,s5,s6
+  80 0108 E018251E 		fdiv  s0,s7,s5
+  81              	//	str   s0,[x0]
+  82 010c 050000BD 	        str   s5,[x0]
+  83 0110 20008052 		mov   w0,1
+  84 0114 C0035FD6 		ret
+AARCH64 GAS  Chapter15_4_.s 			page 4
+
+
+  85              		
+AARCH64 GAS  Chapter15_4_.s 			page 5
+
+
+DEFINED SYMBOLS
+      Chapter15_4_.s:23     .text:0000000000000000 corrCoeff_
+      Chapter15_4_.s:24     .text:0000000000000000 $x
+      Chapter15_4_.s:30     .text:0000000000000014 L1
+      Chapter15_4_.s:42     .text:0000000000000078 sL
+      Chapter15_4_.s:60     .text:00000000000000c8 sL2
+      Chapter15_4_.s:50     .text:00000000000000a4 L2
+
+NO UNDEFINED SYMBOLS

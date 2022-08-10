@@ -1,0 +1,66 @@
+AARCH64 GAS  Chapter13_6_.s 			page 1
+
+
+ GNU assembler version 2.35.2 (aarch64-linux-gnu)
+	 using BFD version (GNU Binutils for Debian) 2.35.2.
+ options passed	: -g -aghlms=obj/Chapter13_6_.lst -march=armv8-a+simd -I. -I../../Include 
+ input file    	: Chapter13_6_.s
+ output file   	: obj/Chapter13_6_.o
+ target        	: aarch64-unknown-linux-gnu
+ time stamp    	: 2022-07-23T17:32:59.000-0400
+
+AARCH64 GAS  Chapter13_6_.s 			page 2
+
+
+   1              	//extern "C" void meanStdev_(double* mean,     x0
+   2              	//                           double* stdev,    x1  
+   3              	//					         const double* x,  x2
+   4              	//					         int n);           w3    
+   5              	
+   6              	.text
+   7              	.global meanStdev_
+   8              	meanStdev_:
+   9 0000 00E4002F 	  movi  d0,0
+  10 0004 05008052 	  mov  w5,0
+  11 0008 E40302AA 	  mov  x4,x2
+  12              	  //calculate mean
+  13 000c 818440FC 	L1: ldr  d1,[x4],8
+  14 0010 0028611E 	    fadd d0,d0,d1
+  15 0014 A5040011 	    add  w5,w5,1
+  16 0018 BF00036B 	    cmp  w5,w3
+  17 001c 8BFFFF54 	    b.lt L1
+  18              		
+  19 0020 6500621E 		scvtf d5,w3
+  20 0024 0018651E 		fdiv  d0,d0,d5
+  21 0028 000000FD 		str   d0,[x0]
+  22              		
+  23 002c 00E4002F 		movi  d0,0
+  24 0030 05008052 	    mov  w5,0
+  25 0034 E40302AA 	    mov  x4,x2
+  26              	//Calculate standard deviation
+  27 0038 010040FD 	    ldr d1,[x0]
+  28 003c 828440FC 	L2: ldr d2,[x4],8 	
+  29 0040 4238611E 		fsub d2,d2,d1 
+  30 0044 4000421F 		fmadd d0,d2,d2,d0
+  31 0048 BF00036B 		cmp  w5,w3
+  32 004c 8BFFFF54 	    b.lt L2
+  33              		
+  34 0050 63040051 		sub w3,w3,1
+  35 0054 6500621E 		scvtf d5,w3
+  36 0058 0018651E 		fdiv d0,d0,d5
+  37 005c 00C0611E 		fsqrt d0,d0
+  38 0060 200000FD 		str  d0,[x1]
+  39 0064 C0035FD6 		ret
+  40              	     
+  41              		
+  42              		
+AARCH64 GAS  Chapter13_6_.s 			page 3
+
+
+DEFINED SYMBOLS
+      Chapter13_6_.s:8      .text:0000000000000000 meanStdev_
+      Chapter13_6_.s:9      .text:0000000000000000 $x
+      Chapter13_6_.s:13     .text:000000000000000c L1
+      Chapter13_6_.s:28     .text:000000000000003c L2
+
+NO UNDEFINED SYMBOLS

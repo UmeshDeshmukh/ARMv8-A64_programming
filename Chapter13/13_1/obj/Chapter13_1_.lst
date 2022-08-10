@@ -1,0 +1,48 @@
+AARCH64 GAS  Chapter13_1_.s 			page 1
+
+
+ GNU assembler version 2.35.2 (aarch64-linux-gnu)
+	 using BFD version (GNU Binutils for Debian) 2.35.2.
+ options passed	: -g -aghlms=obj/Chapter13_1_.lst -march=armv8-a+simd -I. -I../../Include 
+ input file    	: Chapter13_1_.s
+ output file   	: obj/Chapter13_1_.o
+ target        	: aarch64-unknown-linux-gnu
+ time stamp    	: 2022-07-22T18:47:14.000-0400
+
+AARCH64 GAS  Chapter13_1_.s 			page 2
+
+
+   1              	.text 
+   2 0000 E4380E3F 	constFtoC: .single 0.5555556
+   3 0004 6666E63F 	constCtoF: .single 1.8
+   4 0008 00000042 	constConv: .single 32.0
+   5              	
+   6              	.global cvtFtoC_
+   7              	cvtFtoC_:
+   8 000c E1FFFF1C 	  ldr s1,constConv
+   9 0010 0038211E 	  fsub s0,s0,s1
+  10 0014 62FFFF1C 	  ldr s2,constFtoC
+  11 0018 0008221E 	  fmul s0,s0,s2
+  12 001c C0035FD6 	  ret
+  13              	  
+  14              	.global cvtCtoF_
+  15              	cvtCtoF_:
+  16 0020 21FFFF1C 	  ldr s1,constCtoF
+  17 0024 0008211E 	  fmul s0,s0,s1
+  18 0028 02FFFF1C 	  ldr s2,constConv
+  19 002c 0028221E 	  fadd s0,s0,s2
+  20 0030 C0035FD6 	  ret
+  21              	  
+AARCH64 GAS  Chapter13_1_.s 			page 3
+
+
+DEFINED SYMBOLS
+      Chapter13_1_.s:2      .text:0000000000000000 constFtoC
+      Chapter13_1_.s:2      .text:0000000000000000 $d
+      Chapter13_1_.s:3      .text:0000000000000004 constCtoF
+      Chapter13_1_.s:4      .text:0000000000000008 constConv
+      Chapter13_1_.s:7      .text:000000000000000c cvtFtoC_
+      Chapter13_1_.s:8      .text:000000000000000c $x
+      Chapter13_1_.s:15     .text:0000000000000020 cvtCtoF_
+
+NO UNDEFINED SYMBOLS

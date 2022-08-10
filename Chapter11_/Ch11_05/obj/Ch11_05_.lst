@@ -1,0 +1,128 @@
+AARCH64 GAS  Ch11_05_.s 			page 1
+
+
+ GNU assembler version 2.35.2 (aarch64-linux-gnu)
+	 using BFD version (GNU Binutils for Debian) 2.35.2.
+ options passed	: -g -aghlms=obj/Ch11_05_.lst -march=armv8-a+simd -I. -I../../Include 
+ input file    	: Ch11_05_.s
+ output file   	: obj/Ch11_05_.o
+ target        	: aarch64-unknown-linux-gnu
+ time stamp    	: 2022-07-19T17:32:21.000-0400
+
+AARCH64 GAS  Ch11_05_.s 			page 2
+
+
+   1              	//-------------------------------------------------
+   2              	//               Ch11_05_.s
+   3              	//-------------------------------------------------
+   4              	
+   5              	// extern "C" MoveA_(int32_t& a0, int32_t& a1, int32_t& a2, int32_t& a3);
+   6              	
+   7              	            .text
+   8              	            .global MoveA_
+   9 0000 077D8052 	MoveA_:     mov w7,1000                         // w7 = 1000
+  10 0004 070000B9 	            str w7,[x0]
+  11              	
+  12 0008 077DA052 	            mov w7,65536000                     // w7 = 65536000
+  13 000c 270000B9 	            str w7,[x1]
+  14              	
+  15 0010 077DA052 	            movz w7,1000,lsl 16                 // w7 = 65536000
+  16 0014 470000B9 	            str w7,[x2]
+  17              	
+  18 0018 C7FFBF52 	            mov w7,-131072                      // w7 = -131027
+  19 001c 670000B9 	            str w7,[x3]
+  20 0020 C0035FD6 	            ret
+  21              	
+  22              	// extern "C" MoveB_(int64_t& b0, int64_t& b1, int64_t& b2, int64_t& b3);
+  23              	
+  24              	            .global MoveB_
+  25 0024 07FAA0D2 	MoveB_:     mov x7,131072000                    // x7 = 131072000
+  26 0028 070000F9 	            str x7,[x0]
+  27              	
+  28 002c 07FAA0D2 	            movz x7,2000,lsl 16                 // x7 = 131072000
+  29 0030 270000F9 	            str x7,[x1]
+  30              	
+  31 0034 870CC0D2 	            mov x7,429496729600                 // x7 = 429496729600
+  32 0038 470000F9 	            str x7,[x2]
+  33              	
+  34 003c 870CC0D2 	            movz x7,100,lsl 32                  // x7 = 429496729600
+  35 0040 670000F9 	            str x7,[x3]
+  36 0044 C0035FD6 	            ret
+  37              	
+  38              	// extern "C" void MoveC_(int32_t& c0, int32_t& c1);
+  39              	
+  40              	            .equ VAL1,2000000
+  41              	            .equ VAL1_LO16,(VAL1 & 0xffff)
+  42              	            .equ VAL1_HI16,((VAL1 & 0xffff0000) >> 16)
+  43              	
+  44              	            .global MoveC_
+  45              	MoveC_:
+  46              	//          mov w7,VAL1                         // invalid value
+  47              	
+  48 0048 07909052 	            mov w7,VAL1_LO16                    // w7 = 33920
+  49 004c C703A072 	            movk w7,VAL1_HI16,lsl 16            // w7 = 2000000
+  50 0050 070000B9 	            str w7,[x0]
+  51              	
+  52 0054 C7010018 	            ldr w7,=VAL1                        // w7 = 2000000
+  53 0058 270000B9 	            str w7,[x1]
+  54 005c C0035FD6 	            ret
+  55              	
+  56              	// extern "C" void MoveD_(int64_t& d0, int64_t& d1, int64_t& d2);
+  57              	
+AARCH64 GAS  Ch11_05_.s 			page 3
+
+
+  58              	            .equ VAL2,-1000000000000000
+  59              	            .equ VAL2_00,(VAL2 & 0xffff)
+  60              	            .equ VAL2_16,(VAL2 & 0xffff0000) >> 16
+  61              	            .equ VAL2_32,(VAL2 & 0xffff00000000) >> 32
+  62              	            .equ VAL2_48,(VAL2 & 0xffff000000000000) >> 48
+  63              	
+  64              	            .equ VAL3,0x100000064               // (2**32 + 100)
+  65              	            .equ VAL3_00,(VAL3 & 0xffff)
+  66              	            .equ VAL3_32,(VAL3 & 0xffff00000000) >> 32
+  67              	
+  68              	            .global MoveD_
+  69              	MoveD_:
+  70              	//          mov x7,VAL2                         // invalid value
+  71              	
+  72 0060 070090D2 	            mov x7,VAL2_00
+  73 0064 2767ABF2 	            movk x7,VAL2_16,lsl 16
+  74 0068 2750CEF2 	            movk x7,VAL2_32,lsl 32
+  75 006c 87FFFFF2 	            movk x7,VAL2_48,lsl 48              // x7 = VAL2
+  76 0070 070000F9 	            str x7,[x0]
+  77              	
+  78 0074 E7000058 	            ldr x7,=VAL2                        // x7 = VAL2
+  79 0078 270000F9 	            str x7,[x1]
+  80              	
+  81 007c 870C80D2 	            mov x7,VAL3_00
+  82 0080 2700C0F2 	            movk x7,VAL3_32,lsl 32              // x7 = 0x100000064
+  83 0084 470000F9 	            str x7,[x2]
+  84 0088 C0035FD6 	            ret
+  84      80841E00 
+  84      0080395B 
+  84      8172FCFF 
+AARCH64 GAS  Ch11_05_.s 			page 4
+
+
+DEFINED SYMBOLS
+          Ch11_05_.s:9      .text:0000000000000000 MoveA_
+          Ch11_05_.s:9      .text:0000000000000000 $x
+          Ch11_05_.s:25     .text:0000000000000024 MoveB_
+          Ch11_05_.s:40     *ABS*:00000000001e8480 VAL1
+          Ch11_05_.s:41     *ABS*:0000000000008480 VAL1_LO16
+          Ch11_05_.s:42     *ABS*:000000000000001e VAL1_HI16
+          Ch11_05_.s:45     .text:0000000000000048 MoveC_
+          Ch11_05_.s:58     *ABS*:fffc72815b398000 VAL2
+          Ch11_05_.s:59     *ABS*:0000000000008000 VAL2_00
+          Ch11_05_.s:60     *ABS*:0000000000005b39 VAL2_16
+          Ch11_05_.s:61     *ABS*:0000000000007281 VAL2_32
+          Ch11_05_.s:62     *ABS*:000000000000fffc VAL2_48
+          Ch11_05_.s:64     *ABS*:0000000100000064 VAL3
+          Ch11_05_.s:65     *ABS*:0000000000000064 VAL3_00
+          Ch11_05_.s:66     *ABS*:0000000000000001 VAL3_32
+          Ch11_05_.s:69     .text:0000000000000060 MoveD_
+          Ch11_05_.s:84     .text:000000000000008c $d
+          Ch11_05_.s:84     .text:0000000000000090 $d
+
+NO UNDEFINED SYMBOLS
